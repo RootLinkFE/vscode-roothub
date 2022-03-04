@@ -18,6 +18,10 @@
 
 ## TODO
 
+> 还没想好
+
+- WIP……
+
 ## QuickStart
 
 [vsc-extension-quickstart.md](./vsc-extension-quickstart.md)
