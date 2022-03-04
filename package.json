@@ -1,0 +1,96 @@
+{
+  "name": "roothub",
+  "displayName": "RootHub",
+  "description": "RootHub 前端研发平台",
+  "version": "0.0.1",
+  "icon": "https://avatars.githubusercontent.com/u/76474279?s=200&v=4",
+  "engines": {
+    "vscode": "^1.64.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "roothub",
+          "title": "RootHub前端资产平台",
+          "icon": "resources/logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "roothub": [
+        {
+          "id": "views.materials",
+          "name": "物料"
+        },
+        {
+          "id": "views.tools",
+          "name": "工具栏"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "roothub.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "viewsWelcome": [
+    {
+      "view": "view.tools",
+      "contents": "敬请关注！！欢迎PR >> [Github](https://github.com/RootLinkFE/vscode-roothub)"
+    }
+  ],
+  "configuration": {
+    "properties": {}
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "14.x",
+    "@types/vscode": "^1.65.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "@vscode/test-electron": "^2.1.2",
+    "eslint": "^8.9.0",
+    "glob": "^7.2.0",
+    "mocha": "^9.2.1",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.5",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "bufferutil": "^4.0.6",
+    "event-emitter-enhancer": "^2.0.0",
+    "eventemitter2": "^6.4.5",
+    "events": "^3.3.0",
+    "get-port": "5.1.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "os-name": "^5.0.1",
+    "public-ip": "^5.0.0",
+    "puppeteer-core": "^13.4.1",
+    "utf-8-validate": "^5.0.8",
+    "uuid": "^8.3.2",
+    "which-chrome": "^0.1.1"
+  }
+}

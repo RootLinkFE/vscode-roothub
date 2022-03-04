@@ -1,0 +1,28 @@
+name: Deploy By Tag
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.0]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+        # Get commit message
+      - name: Get commit message
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%s -n 1)
+          echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+      - name: Deploy
+        run: |
+          yarn
+          yarn deploy -p ${{ secrets.VSCE_TOKEN }}
