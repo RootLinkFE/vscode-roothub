@@ -56240,12 +56240,12 @@ exports.viewByIframe = viewByIframe;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.MaterialsProvider = void 0;
+exports.ToolsProvider = void 0;
 const path_1 = __webpack_require__(11);
 const vscode_1 = __webpack_require__(1);
 const constant_1 = __webpack_require__(355);
 const state_1 = __webpack_require__(350);
-class MaterialsProvider {
+class ToolsProvider {
     constructor() {
         this._onDidChangeTreeData = new vscode_1.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -56254,7 +56254,7 @@ class MaterialsProvider {
         this._onDidChangeTreeData.fire(undefined);
     }
     getChildren() {
-        return constant_1.BLOG_CATEGORY.map((item) => {
+        return constant_1.TOOL_LIST.map((item) => {
             const { title, description, url, command, icon, id } = item;
             const tree = new vscode_1.TreeItem(title, vscode_1.TreeItemCollapsibleState.None);
             tree.command = {
@@ -56275,7 +56275,7 @@ class MaterialsProvider {
         return element;
     }
 }
-exports.MaterialsProvider = MaterialsProvider;
+exports.ToolsProvider = ToolsProvider;
 
 
 /***/ }),
@@ -56285,23 +56285,15 @@ exports.MaterialsProvider = MaterialsProvider;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.BLOG_CATEGORY = void 0;
-exports.BLOG_CATEGORY = [
-    {
-        id: 'RootHub',
-        title: 'RootHub',
-        description: 'RootHub',
-        command: 'roothub.viewByIframe',
-        url: 'http://106.52.67.59:8181/overview',
-        icon: 'logo',
-    },
+exports.TOOL_LIST = void 0;
+exports.TOOL_LIST = [
     {
         id: 'codegen',
         title: 'CodeGen',
-        description: 'CodeGen',
+        description: '根据Swagger接口文档生成TypeScript代码',
         command: 'roothub.codegenView',
         url: 'http://codegen.leekhub.com/codegen/',
-        icon: 'logo',
+        icon: 'codegen',
     },
 ];
 
@@ -56392,13 +56384,13 @@ exports.deactivate = exports.activate = void 0;
 const vscode_1 = __webpack_require__(1);
 const command_1 = __webpack_require__(2);
 const state_1 = __webpack_require__(350);
-const MaterialsProvider_1 = __webpack_require__(354);
+const ToolsProvider_1 = __webpack_require__(354);
 function activate(context) {
     console.log('【RootHub】Congratulations, your extension "roothub" is now active!');
     state_1.default.isDevelopment = process.env.NODE_ENV === 'development';
     state_1.default.extensionContext = context;
-    const materialProvider = new MaterialsProvider_1.MaterialsProvider();
-    const materialView = vscode_1.window.createTreeView('views.materials', {
+    const materialProvider = new ToolsProvider_1.ToolsProvider();
+    const materialView = vscode_1.window.createTreeView('views.tools', {
         treeDataProvider: materialProvider,
     });
     materialProvider.refresh();

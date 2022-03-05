@@ -4,21 +4,13 @@ export interface SiteType {
   id: string;
 }
 
-export const BLOG_CATEGORY = [
-  {
-    id: 'RootHub',
-    title: 'RootHub',
-    description: 'RootHub',
-    command: 'roothub.viewByIframe',
-    url: 'http://106.52.67.59:8181/overview',
-    icon: 'logo',
-  },
+export const TOOL_LIST = [
   {
     id: 'codegen',
     title: 'CodeGen',
-    description: 'CodeGen',
+    description: '根据Swagger接口文档生成TypeScript代码',
     command: 'roothub.codegenView',
     url: 'http://codegen.leekhub.com/codegen/',
-    icon: 'logo',
+    icon: 'codegen',
   },
 ];

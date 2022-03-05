@@ -8,14 +8,14 @@
 import { ExtensionContext, window } from 'vscode';
 import registerCommands from './command';
 import globalState from './shared/state';
-import { MaterialsProvider } from './views/MaterialsProvider';
+import { ToolsProvider } from './views/ToolsProvider';
 
 export function activate(context: ExtensionContext) {
   console.log('【RootHub】Congratulations, your extension "roothub" is now active!');
   globalState.isDevelopment = process.env.NODE_ENV === 'development';
   globalState.extensionContext = context;
-  const materialProvider = new MaterialsProvider();
-  const materialView = window.createTreeView('views.materials', {
+  const materialProvider = new ToolsProvider();
+  const materialView = window.createTreeView('views.tools', {
     treeDataProvider: materialProvider,
   });
 

@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "icon": "https://avatars.githubusercontent.com/u/76474279?s=200&v=4",
   "engines": {
-    "vscode": "^1.64.0"
+    "vscode": "^1.44.0"
   },
   "categories": [
     "Other"
@@ -27,15 +27,25 @@
     "views": {
       "roothub": [
         {
-          "id": "views.materials",
-          "name": "物料"
+          "id": "views.welcome",
+          "name": "Welcome"
         },
         {
           "id": "views.tools",
-          "name": "工具栏"
+          "name": "Tools"
         }
       ]
     },
+    "viewsWelcome": [
+      {
+        "view": "views.welcome",
+        "contents": "欢迎 RootHub。\n[打开RootHub](http://roothub.leekhub.com/)\n查看[文档](https://marketplace.visualstudio.com/items?itemName=giscafer.roothub)以学习如何在 VS Code 中如何使用 RootHub App。"
+      },
+      {
+        "view": "view.tools",
+        "contents": "出错了！！欢迎提Issues >> [Github](https://github.com/RootLinkFE/vscode-roothub)"
+      }
+    ],
     "commands": [
       {
         "command": "roothub.helloWorld",
@@ -43,12 +53,6 @@
       }
     ]
   },
-  "viewsWelcome": [
-    {
-      "view": "view.tools",
-      "contents": "敬请关注！！欢迎PR >> [Github](https://github.com/RootLinkFE/vscode-roothub)"
-    }
-  ],
   "configuration": {
     "properties": {}
   },
