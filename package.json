@@ -3,7 +3,20 @@
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
   "version": "0.0.1",
-  "icon": "https://avatars.githubusercontent.com/u/76474279?s=200&v=4",
+  "author": "giscafer <giscafer@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/giscafer/leek-fund.git"
+  },
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "roothub",
+    "codegen",
+    "vscode",
+    "frontend"
+  ],
+  "publisher": "giscafer",
+  "icon": "resources/logo.png",
   "engines": {
     "vscode": "^1.65.0"
   },
