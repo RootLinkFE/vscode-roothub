@@ -1,4 +1,6 @@
-export const TOOL_LIST = [
+import { ToolType } from './interface';
+
+export const TOOL_LIST: ToolType[] = [
   {
     id: 'codegen',
     title: 'CodeGen',

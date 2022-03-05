@@ -1,6 +1,7 @@
 import { join } from 'path';
 import { Event, EventEmitter, TreeDataProvider, TreeItem, TreeItemCollapsibleState } from 'vscode';
 import { TOOL_LIST } from '../shared/constant';
+import { ToolType } from '../shared/interface';
 import globalState from '../shared/state';
 
 export class ToolsProvider implements TreeDataProvider<TreeItem> {
@@ -15,7 +16,7 @@ export class ToolsProvider implements TreeDataProvider<TreeItem> {
   }
 
   getChildren(): TreeItem[] | Thenable<TreeItem[]> {
-    return TOOL_LIST.map((item) => {
+    return TOOL_LIST.map((item: ToolType) => {
       const { title, description, url, command, icon, id } = item;
       const tree = new TreeItem(title, TreeItemCollapsibleState.None);
       tree.command = {
