@@ -12,3 +12,6 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 yarn-error.log
+app-packages
+build
+scripts

@@ -9,3 +9,6 @@ cd ./app-packages/roothub-codegen
 pwd
 yarn
 yarn build
+echo '构建完成！'
+cd ../../
+ls -l templates/codegen
