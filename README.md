@@ -13,13 +13,24 @@
 
 ## Features
 
-- roothub 物料平台 http://roothub.leekhub.com/
-- codegen 代码生成
+- RootHub 物料平台
+  - http://roothub.leekhub.com/
+- CodeGen
+  - 弹窗 ProForm 表单配置代码生成
+  - 分页查询接口列表页面代码直接生成（基于 RhTable 组件）
+  - 枚举生成
+  - Table 列配置生成
+  - 可替代 swagger 接口文档查看接口详情
 
 ## TODO
 
 - WIP……
+- 欢迎提建议
 
 ## QuickStart
 
-see `./vsc-extension-quickstart.md`
+插件开发阅读文档： `./vsc-extension-quickstart.md`
+
+工具应用开发采用 `git submodule` 解耦的方式，工具应用单独仓库&单独开发维护，插件打包时会对工具应用分别进行构建打包成静态资源加载。
+
+如果工具应用需要和插件通信，则需要开发环境下进行联调，具体参考 roothub-codegen 工具开发的说明
