@@ -22,4 +22,4 @@
 
 ## QuickStart
 
-[vsc-extension-quickstart.md](./vsc-extension-quickstart.md)
+see `./vsc-extension-quickstart.md`
