@@ -21,11 +21,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js 12.x
+      - name: Use Node.js 16.0
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
-
+          node-version: '16.0'
+      # git submodule update
+      - name: Submodule update
+        run: |
+          bash ./scripts/git-clone.sh
       - name: Install
         run: |
           yarn install

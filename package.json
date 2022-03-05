@@ -55,7 +55,7 @@
   "scripts": {
     "vscode:prepublish": "yarn run package",
     "compile": "webpack",
-    "postcompile": "git submoudle update && yarn --cwd ./app-packages/codegen run build",
+    "postcompile": "yarn --cwd ./app-packages/codegen run build",
     "watch": "webpack --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
     "compile-tests": "tsc -p . --outDir out",
