@@ -14,14 +14,13 @@ jobs:
         node-version: [16.0]
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      # git submodule update
-      - name: Get commit message
-        run: |
-          bash ./scripts/git-clone.sh
       # Get commit message
       - name: Get commit message
         run: |

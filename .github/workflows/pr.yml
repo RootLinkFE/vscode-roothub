@@ -16,11 +16,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+      - uses: actions/checkout@v2
         with:
-          persist-credentials: false
-
+          submodules: recursive
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Use Node.js 16.0
         uses: actions/setup-node@v1
         with:
