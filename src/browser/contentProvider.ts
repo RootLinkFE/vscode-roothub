@@ -1,6 +1,7 @@
 import { env } from 'vscode';
 import * as path from 'path';
 import * as vscode from 'vscode';
+const fse = require('fs-extra');
 
 export default class ContentProvider {
   private config: any;
@@ -10,7 +11,15 @@ export default class ContentProvider {
   }
 
   getContent() {
-    const manifest = require(path.join(this.config.extensionPath, 'build', 'asset-manifest.json'));
+    const manifestPath = path.join(
+      this.config.extensionPath,
+      'build',
+      'asset-manifest.json'
+    );
+    const manifest = fse.readJsonSync(manifestPath);
+
+    // const manifest = require(manifestPath);
+
     const mainScript = manifest['main.js'];
     const mainStyle = manifest['main.css'];
     const runtimeScript = manifest['runtime~main.js'];
@@ -20,24 +29,32 @@ export default class ContentProvider {
     for (let key in manifest) {
       if (key.endsWith('.chunk.js') && manifest.hasOwnProperty(key)) {
         // finding their paths on the disk
-        let chunkScriptUri = vscode.Uri.file(path.join(this.config.extensionPath, 'build', manifest[key])).with({
-          scheme: 'vscode-resource'
+        let chunkScriptUri = vscode.Uri.file(
+          path.join(this.config.extensionPath, 'build', manifest[key])
+        ).with({
+          scheme: 'vscode-resource',
         });
         // push the chunk Uri to the list of chunks
         chunkScriptsUri.push(chunkScriptUri);
       }
     }
 
-    const runtimescriptPathOnDisk = vscode.Uri.file(path.join(this.config.extensionPath, 'build', runtimeScript));
+    const runtimescriptPathOnDisk = vscode.Uri.file(
+      path.join(this.config.extensionPath, 'build', runtimeScript)
+    );
     const runtimescriptUri = runtimescriptPathOnDisk.with({
-      scheme: 'vscode-resource'
+      scheme: 'vscode-resource',
     });
-    const mainScriptPathOnDisk = vscode.Uri.file(path.join(this.config.extensionPath, 'build', mainScript));
+    const mainScriptPathOnDisk = vscode.Uri.file(
+      path.join(this.config.extensionPath, 'build', mainScript)
+    );
     const mainScriptUri = mainScriptPathOnDisk.with({
-      scheme: 'vscode-resource'
+      scheme: 'vscode-resource',
     });
 
-    const stylePathOnDisk = vscode.Uri.file(path.join(this.config.extensionPath, 'build', mainStyle));
+    const stylePathOnDisk = vscode.Uri.file(
+      path.join(this.config.extensionPath, 'build', mainStyle)
+    );
     const styleUri = stylePathOnDisk.with({ scheme: 'vscode-resource' });
 
     return `<!DOCTYPE html>
@@ -45,15 +62,19 @@ export default class ContentProvider {
                 <head>
                     <meta charset="utf-8">
                     <link rel="stylesheet" type="text/css" href="${styleUri}">
-                    <base href="${vscode.Uri.file(path.join(this.config.extensionPath, 'build')).with({
-                      scheme: 'vscode-resource'
+                    <base href="${vscode.Uri.file(
+                      path.join(this.config.extensionPath, 'build')
+                    ).with({
+                      scheme: 'vscode-resource',
                     })}/">
                 </head>
     
                 <body>
                     <div id="root"></div>
                     <script src="${runtimescriptUri}"></script>
-                    ${chunkScriptsUri.map((item) => `<script src="${item}"></script>`)}
+                    ${chunkScriptsUri.map(
+                      (item) => `<script src="${item}"></script>`
+                    )}
                     <script src="${mainScriptUri}"></script>
                 </body>
                 </html>`;

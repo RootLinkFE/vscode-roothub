@@ -3,7 +3,7 @@
 'use strict';
 
 const path = require('path');
-// const nodeExternals = require('webpack-node-externals');
+const CopyPlugin = require('copy-webpack-plugin');
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
@@ -26,6 +26,7 @@ const extensionConfig = {
       // modules added here also need to be added in the .vscodeignore file
     },
     // nodeExternals(),
+    'app-packages',
   ],
   resolve: {
     // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
@@ -44,6 +45,14 @@ const extensionConfig = {
       },
     ],
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: 'build', to: 'build' }],
+      options: {
+        concurrency: 100,
+      },
+    }),
+  ],
   devtool: 'nosources-source-map',
   infrastructureLogging: {
     level: 'log', // enables logging required for problem matchers

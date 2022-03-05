@@ -1,5 +1,7 @@
 import { commands, ExtensionContext, window } from 'vscode';
 import { BrowserViewWindowManager } from './browser/BrowserViewWindowManager';
+import codegenView from './webview/codegenView';
+import { viewByIframe } from './webview/iframe';
 
 function registerCommands(context: ExtensionContext) {
   //  统计
@@ -10,7 +12,13 @@ function registerCommands(context: ExtensionContext) {
     commands.registerCommand('roothub.openPreview', (url?) => {
       windowManager.create(url);
     }),
-
+    commands.registerCommand('roothub.viewByIframe', (url, title) => {
+      viewByIframe(title, url);
+    }),
+    // CodeGen 工具
+    commands.registerCommand('roothub.codegenView', () => {
+      codegenView(context);
+    }),
     commands.registerCommand('roothub.openActiveFile', () => {
       const activeEditor = window.activeTextEditor;
       if (!activeEditor) {
@@ -25,6 +33,8 @@ function registerCommands(context: ExtensionContext) {
       }
     }),
   ];
+
+  context.subscriptions.push(...commandList);
 }
 
 export default registerCommands;

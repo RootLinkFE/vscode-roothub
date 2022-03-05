@@ -11,9 +11,8 @@ import globalState from './shared/state';
 import { MaterialsProvider } from './views/MaterialsProvider';
 
 export function activate(context: ExtensionContext) {
-  console.log(
-    '【RootHub】Congratulations, your extension "roothub" is now active!'
-  );
+  console.log('【RootHub】Congratulations, your extension "roothub" is now active!');
+  globalState.isDevelopment = process.env.NODE_ENV === 'development';
   globalState.extensionContext = context;
   const materialProvider = new MaterialsProvider();
   const materialView = window.createTreeView('views.materials', {

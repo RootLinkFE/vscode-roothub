@@ -1,0 +1,4 @@
+[submodule "roothub-codegen"]
+	path = app-packages/roothub-codegen
+	url = https://github.com/RootLinkFE/roothub-codegen.git
+	branch = main

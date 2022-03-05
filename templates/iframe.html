@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iframe</title>
+  </head>
+  <body>
+    <h4 class="site"></h4>
+    <div id="iframeWrap" style="min-width: 1320px; overflow-x: auto"></div>
+    <script>
+      const iframeWrapEl = document.querySelector('#iframeWrap');
+      const vscode = acquireVsCodeApi();
+      function refreshIframe(url) {
+        /*  document.querySelector(
+          '.site'
+        ).innerHTML = `网页地址：<a href="${url}">${url}</a>`; */
+        iframeWrapEl.innerHTML = `<iframe
+        src="${url}"
+        frameborder="0"
+        sandbox="allow-popups allow-scripts allow-popups-to-escape-sandbox"
+        style="width: 1200px; height: 700px"
+      ></iframe>`;
+      }
+      window.addEventListener('message', (event) => {
+        const msg = event.data;
+        console.log(msg);
+        switch (msg.command) {
+          case 'viewIframeCommand':
+            refreshIframe(msg.data.url);
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>

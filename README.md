@@ -18,6 +18,8 @@
 
 ## TODO
 
+codegen 改造为非 Umi
+
 > 还没想好
 
 - WIP……
