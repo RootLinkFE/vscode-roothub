@@ -1,36 +1,23 @@
 import { commands, ExtensionContext, window } from 'vscode';
 import { BrowserViewWindowManager } from './browser/BrowserViewWindowManager';
-import codegenView from './webview/codegenView';
+import codeGenView from './webview/codegenView';
 import { viewByIframe } from './webview/iframe';
 
 function registerCommands(context: ExtensionContext) {
-  //  统计
-
   const windowManager = new BrowserViewWindowManager(context.extensionPath);
 
   const commandList = [
+    // 基于puppeteer浏览器打开页面
     commands.registerCommand('roothub.openPreview', (url?) => {
       windowManager.create(url);
     }),
+    // iframe 嵌入
     commands.registerCommand('roothub.viewByIframe', (url, title) => {
       viewByIframe(title, url);
     }),
     // CodeGen 工具
     commands.registerCommand('roothub.codegenView', () => {
-      codegenView(context);
-    }),
-    commands.registerCommand('roothub.openActiveFile', () => {
-      const activeEditor = window.activeTextEditor;
-      if (!activeEditor) {
-        return; // no active editor: ignore the command
-      }
-
-      // get active url
-      const filename = activeEditor.document.fileName;
-
-      if (filename) {
-        windowManager.create(`file://${filename}`);
-      }
+      codeGenView(context);
     }),
   ];
 

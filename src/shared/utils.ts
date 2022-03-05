@@ -3,7 +3,7 @@ const path = require('path');
 import { Uri, Webview } from 'vscode';
 import globalState from './state';
 /**
- * 数组去重
+ * config配置数组去重
  */
 export const uniq = (elements: Array<string | number>) => {
   if (!Array.isArray(elements)) {
@@ -14,7 +14,7 @@ export const uniq = (elements: Array<string | number>) => {
 };
 
 /**
- * 清除数组里面的非法值
+ * 清除config配置数组里面的非法值
  */
 export const clean = (elements: Array<string | number>) => {
   if (!Array.isArray(elements)) {
@@ -26,7 +26,6 @@ export const clean = (elements: Array<string | number>) => {
 
 export function getTemplateFileContent(tplName: string) {
   const tplPath = path.join(globalState.extensionContext.extensionPath, 'templates', tplName);
-  // console.log('tplPath=', tplPath);
   const html = fse.readFileSync(tplPath, 'utf-8');
   return html;
 }

@@ -1,4 +1,3 @@
-import { env } from 'vscode';
 import * as path from 'path';
 import * as vscode from 'vscode';
 const fse = require('fs-extra');
@@ -11,11 +10,7 @@ export default class ContentProvider {
   }
 
   getContent() {
-    const manifestPath = path.join(
-      this.config.extensionPath,
-      'build',
-      'asset-manifest.json'
-    );
+    const manifestPath = path.join(this.config.extensionPath, 'build', 'asset-manifest.json');
     const manifest = fse.readJsonSync(manifestPath);
 
     // const manifest = require(manifestPath);
@@ -68,13 +63,11 @@ export default class ContentProvider {
                       scheme: 'vscode-resource',
                     })}/">
                 </head>
-    
+
                 <body>
                     <div id="root"></div>
                     <script src="${runtimescriptUri}"></script>
-                    ${chunkScriptsUri.map(
-                      (item) => `<script src="${item}"></script>`
-                    )}
+                    ${chunkScriptsUri.map((item) => `<script src="${item}"></script>`)}
                     <script src="${mainScriptUri}"></script>
                 </body>
                 </html>`;

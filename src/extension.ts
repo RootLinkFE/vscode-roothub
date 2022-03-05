@@ -14,21 +14,20 @@ export function activate(context: ExtensionContext) {
   console.log('【RootHub】Congratulations, your extension "roothub" is now active!');
   globalState.isDevelopment = process.env.NODE_ENV === 'development';
   globalState.extensionContext = context;
-  const materialProvider = new ToolsProvider();
-  const materialView = window.createTreeView('views.tools', {
-    treeDataProvider: materialProvider,
+  const toolProvider = new ToolsProvider();
+  const toolView = window.createTreeView('views.tools', {
+    treeDataProvider: toolProvider,
   });
 
-  materialProvider.refresh();
+  toolProvider.refresh();
 
   registerCommands(context);
 
-  globalState.events.addListener('refresh-view', (type) => {
-    if (type === 'mark' && materialView.visible) {
-      materialProvider.refresh();
+  /*  globalState.events.addListener('refresh-view', (type) => {
+    if (type === 'mark' && toolView.visible) {
+      toolProvider.refresh();
     }
-  });
+  }); */
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {}
