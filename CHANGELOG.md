@@ -4,6 +4,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.8]
+
+- fix[codegen]:url 变更时存在缓存问题&细节优化
+
 ## [0.0.7]
 
 - 新增 CodeGen 接口文档 url 链接使用说明
