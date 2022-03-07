@@ -4,6 +4,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.9]
+
+- fix[codegen]: 解决跨域问题
+
 ## [0.0.8]
 
 - fix[codegen]:url 变更时存在缓存问题&细节优化
