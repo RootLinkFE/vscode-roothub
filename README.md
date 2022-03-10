@@ -27,7 +27,13 @@
 - WIP……
 - 欢迎提建议
 
-## QuickStart
+## Screenshots
+
+### CodeGen 工具
+
+![](./screenshots/codegen.png)
+
+## Development QuickStart
 
 插件开发阅读文档： `./vsc-extension-quickstart.md`
 
