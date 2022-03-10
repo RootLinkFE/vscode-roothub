@@ -29,6 +29,14 @@ function codeGenView(context: ExtensionContext) {
       case 'pageReady':
         panelEvents.emit('pageReady');
         return;
+      case 'openInCodeSandBox':
+        console.log('openInCodeSandBox', message.data);
+        // TODO: 暂不知道VSCode如何实现 form action blank submit
+        /*  axios
+          .post(message.data.url, message.data.parameters)
+          .then(postFetchResponseFactory(panel.webview, true, message.data.sessionId))
+          .catch(postFetchResponseFactory(panel.webview, false, message.data.sessionId)); */
+        return;
       case 'fetch':
         console.log('「RootHub」', 'fetch:', message.data);
         axios
