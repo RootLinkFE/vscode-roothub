@@ -42,10 +42,7 @@ function codeGenView(context: ExtensionContext) {
         axios
           .get(encodeURI(message.data?.url))
           .then(postFetchResponseFactory(panel.webview, true, message.data.sessionId))
-          .catch((err) => {
-            console.log('「RootHub」', 'codgen fetch 失败', message.data?.url, err);
-            postFetchResponseFactory(panel.webview, false, message.data.sessionId);
-          });
+          .catch(postFetchResponseFactory(panel.webview, false, message.data.sessionId));
         return;
     }
   }, undefined);
