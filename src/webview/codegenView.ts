@@ -22,6 +22,7 @@ function codeGenView(context: ExtensionContext) {
   }
   mounted = true;
   panelEvents = new EventEmitter();
+  setStorage(context, panel.webview, panelEvents);
 
   panel.webview.onDidReceiveMessage((message) => {
     panelEvents.emit('onDidReceiveMessage', message);
@@ -44,6 +45,14 @@ function codeGenView(context: ExtensionContext) {
           .then(postFetchResponseFactory(panel.webview, true, message.data.sessionId))
           .catch(postFetchResponseFactory(panel.webview, false, message.data.sessionId));
         return;
+      case 'pushStorage':
+        // console.log('「RootHub」', 'pushStorage:', message.data);
+        const { key, data } = message.data;
+        const globalStorage: any = context.globalState.get(key);
+        if (!globalStorage) {
+          context.globalState.setKeysForSync([key]);
+        }
+        context.globalState.update(key, { ...globalStorage, ...data });
     }
   }, undefined);
 
@@ -85,7 +94,6 @@ function postFetchResponseFactory(webview: Webview, success: boolean, sessionId:
     if (!success) {
       console.log('「RootHub」', 'codgen 请求失败');
     }
-    // console.log('「RootHub」', 'codgen response: ', response);
     const { status, data } = response;
 
     webview.postMessage({
@@ -97,6 +105,21 @@ function postFetchResponseFactory(webview: Webview, success: boolean, sessionId:
       },
     });
   };
+}
+
+/**
+ * setStorage 设置storage存储在webview初始化后回传
+ * @param context 
+ * @param webview 
+ * @param panelEvents 
+ */
+function setStorage(context: any, webview: Webview, panelEvents: EventEmitter) {
+  panelEvents.on('pageReady', () => {
+    webview.postMessage({
+      command: 'updateGlobalStorage',
+      data: context.globalState.get('storage') ?? {},
+    });
+  });
 }
 
 export default codeGenView;
