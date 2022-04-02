@@ -4,6 +4,11 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.2]
+
+- fix[codegen]: 修复请求 url 错误未回调问题
+- feat[codegen]: url 记忆功能
+
 ## [0.1.1]
 
 - fix[codegen]: 修复请求 url 中文时错误问题
