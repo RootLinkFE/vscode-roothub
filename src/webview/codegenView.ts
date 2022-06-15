@@ -40,8 +40,10 @@ function codeGenView(context: ExtensionContext) {
         return;
       case 'fetch':
         console.log('「RootHub」', 'fetch:', message.data);
-        axios
-          .get(encodeURI(message.data?.url))
+        axios({
+          url: encodeURI(message.data?.url),
+          headers: message.data?.headers,
+        })
           .then(postFetchResponseFactory(panel.webview, true, message.data.sessionId))
           .catch(postFetchResponseFactory(panel.webview, false, message.data.sessionId));
         return;
@@ -109,9 +111,9 @@ function postFetchResponseFactory(webview: Webview, success: boolean, sessionId:
 
 /**
  * setStorage 设置storage存储在webview初始化后回传
- * @param context 
- * @param webview 
- * @param panelEvents 
+ * @param context
+ * @param webview
+ * @param panelEvents
  */
 function setStorage(context: any, webview: Webview, panelEvents: EventEmitter) {
   panelEvents.on('pageReady', () => {
