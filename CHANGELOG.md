@@ -1,8 +1,17 @@
+<!--
+ * @Author: ZtrainWilliams ztrain1224@163.com
+ * @Date: 2022-06-08 15:07:53
+ * @Description: 
+-->
 # Change Log
 
 All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+
+## [0.1.3]
+
+- fix[codegen]: 修复swager使用knfie4j工具类-需补充接口headers
 
 ## [0.1.2]
 
