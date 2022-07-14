@@ -1,9 +1,15 @@
+/*
+ * @Author: ZtrainWilliams ztrain1224@163.com
+ * @Date: 2022-06-08 15:07:53
+ * @Description:
+ */
 import axios from 'axios';
 import { EventEmitter } from 'events';
 import { ExtensionContext, ViewColumn, Webview, window } from 'vscode';
 import globalState from '../shared/state';
-import { formatHTMLWebviewResourcesUrl, getTemplateFileListContent } from '../shared/utils';
+import { events, formatHTMLWebviewResourcesUrl, getTemplateFileListContent } from '../shared/utils';
 import ReusedWebviewPanel from './ReusedWebviewPanel';
+import { BaseConfig } from '../shared/BaseConfig';
 
 const DEV_URL = 'http://localhost:3031';
 
@@ -14,7 +20,7 @@ let panelEvents: EventEmitter;
 function codeGenView(context: ExtensionContext) {
   const panel = ReusedWebviewPanel.create('roothub.codeGenView', `CodeGen`, ViewColumn.One, {
     enableScripts: true,
-    retainContextWhenHidden: true,
+    retainContextWhenHidden: true
   });
 
   if (mounted) {
@@ -23,8 +29,9 @@ function codeGenView(context: ExtensionContext) {
   mounted = true;
   panelEvents = new EventEmitter();
   setStorage(context, panel.webview, panelEvents);
+  setCodeGenSetting(panel.webview, panelEvents);
 
-  panel.webview.onDidReceiveMessage((message) => {
+  panel.webview.onDidReceiveMessage(message => {
     panelEvents.emit('onDidReceiveMessage', message);
     switch (message.command) {
       case 'pageReady':
@@ -42,7 +49,7 @@ function codeGenView(context: ExtensionContext) {
         console.log('「RootHub」', 'fetch:', message.data);
         axios({
           url: encodeURI(message.data?.url),
-          headers: message.data?.headers,
+          headers: message.data?.headers
         })
           .then(postFetchResponseFactory(panel.webview, true, message.data.sessionId))
           .catch(postFetchResponseFactory(panel.webview, false, message.data.sessionId));
@@ -66,13 +73,13 @@ function codeGenView(context: ExtensionContext) {
   if (globalState.isDevelopment) {
     axios
       .get(DEV_URL)
-      .then((res) => {
+      .then(res => {
         const html = res.data;
-        panel.webview.html = formatHTMLWebviewResourcesUrl(html, (link) => {
+        panel.webview.html = formatHTMLWebviewResourcesUrl(html, link => {
           return DEV_URL + link;
         });
       })
-      .catch((err) => {
+      .catch(err => {
         window.showErrorMessage(`[CodeGen 开发环境] 获取 ${DEV_URL} 失败，请先启动服务`);
       });
   } else {
@@ -103,8 +110,8 @@ function postFetchResponseFactory(webview: Webview, success: boolean, sessionId:
       data: {
         success,
         response: data,
-        sessionId,
-      },
+        sessionId
+      }
     });
   };
 }
@@ -119,9 +126,64 @@ function setStorage(context: any, webview: Webview, panelEvents: EventEmitter) {
   panelEvents.on('pageReady', () => {
     webview.postMessage({
       command: 'updateGlobalStorage',
-      data: context.globalState.get('storage') ?? {},
+      data: context.globalState.get('storage') ?? {}
     });
   });
+}
+
+/**
+ * @description: 初始化CodeGenCustomMethods与vscode的通信
+ * @param {Webview} webview
+ * @param {EventEmitter} panelEvents
+ * @return {*}
+ */
+function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
+  console.log('globalState: ', globalState);
+
+  panelEvents.on('onDidReceiveMessage', message => {
+    switch (message.command) {
+      case 'saveCodeGenCustomMethods': // 自定义代码生成方法
+        setcodeGenCustomMethodsCfgCb(message.data);
+        return;
+    }
+  });
+
+  panelEvents.on('pageReady', () => {
+    webview.postMessage({
+      command: 'updateCodeGenCustomMethods',
+      data: globalState.codeGenCustomMethods
+    });
+  });
+
+  const updateWebViewCfg = () => {
+    console.log('updateCodeGenCustomMethods: ', globalState.codeGenCustomMethods);
+    webview.postMessage({
+      command: 'updateCodeGenCustomMethods',
+      data: globalState.codeGenCustomMethods
+    });
+  };
+  events.on('onDidChangeConfiguration', updateWebViewCfg);
+
+  panelEvents.on('onDidDispose', () => {
+    events.off('onDidChangeConfiguration', updateWebViewCfg);
+  });
+}
+
+export function setcodeGenCustomMethodsCfgCb(cfg: Object) {
+  BaseConfig.setConfig('codegen.custom-methods', cfg).then(
+    () => {
+      window.showInformationMessage('自定义代码函数更新成功！');
+      cacheCodeGenCustomMethods(cfg);
+    },
+    err => {
+      console.error(err);
+    }
+  );
+}
+
+// 更新 codeGenCustomMethods
+export function cacheCodeGenCustomMethods(remindObj: Object) {
+  globalState.codeGenCustomMethods = remindObj;
 }
 
 export default codeGenView;
