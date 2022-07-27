@@ -5,6 +5,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.0]
+
+- reat[codegen]: swagger-ui2.0模式;自定义代码在线编辑；json、yaml文件格式支持；增加部分快捷复制功能
+
 ## [0.1.3]
 
 - fix[codegen]: 修复`swagger`使用 knfie4j 工具类-需补充接口headers

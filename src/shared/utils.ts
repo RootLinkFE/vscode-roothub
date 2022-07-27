@@ -1,7 +1,9 @@
 const fse = require('fs-extra');
 const path = require('path');
+import { EventEmitter } from 'events';
 import { Uri, Webview } from 'vscode';
 import globalState from './state';
+
 /**
  * config配置数组去重
  */
@@ -12,6 +14,8 @@ export const uniq = (elements: Array<string | number>) => {
 
   return elements.filter((element, index) => index === elements.indexOf(element));
 };
+
+export const events = new EventEmitter();
 
 /**
  * 清除config配置数组里面的非法值

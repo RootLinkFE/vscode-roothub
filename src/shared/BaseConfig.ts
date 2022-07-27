@@ -1,8 +1,7 @@
-/**
- * @author giscafer
- * @homepage http://giscafer.com
- * @created 2022-03-04 16:06:10
- * @description 配置类
+/*
+ * @Author: ZtrainWilliams ztrain1224@163.com
+ * @Date: 2022-06-08 15:07:53
+ * @Description: 配置类
  */
 
 import { workspace } from 'vscode';
