@@ -33,7 +33,7 @@
 
 ### CodeGen 工具
 
-![](./screenshots/codegen.png)
+![](./screenshots/codegen.jpg)
 
 ## Development QuickStart
 
