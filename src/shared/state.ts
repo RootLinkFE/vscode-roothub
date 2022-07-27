@@ -8,7 +8,7 @@ let codeGenSetting = {
   language: 'zh-CN',
   theme: 'default'
 };
-let codeGenCustomMethods = {};
+let codeGenCustomMethods: any[] = [];
 
 export default {
   extensionContext,

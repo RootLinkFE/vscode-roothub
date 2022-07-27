@@ -5,7 +5,7 @@
  * @description RootHub VSCode 插件初始化
  */
 
-import { ExtensionContext, window } from 'vscode';
+import { ExtensionContext, window, workspace, ConfigurationChangeEvent } from 'vscode';
 import registerCommands from './command';
 import globalState from './shared/state';
 import { BaseConfig } from './shared/BaseConfig';
@@ -15,12 +15,11 @@ export function activate(context: ExtensionContext) {
   console.log('【RootHub】Congratulations, your extension "roothub" is now active!');
   globalState.isDevelopment = process.env.NODE_ENV === 'development';
   globalState.extensionContext = context;
-
   globalState.codeGenSetting = BaseConfig.getConfig('codegen.setting');
-  globalState.codeGenCustomMethods = BaseConfig.getConfig('codegen.custom-methods');
+  globalState.codeGenCustomMethods = BaseConfig.getConfig('codegen.custom-method');
   const toolProvider = new ToolsProvider();
   const toolView = window.createTreeView('views.tools', {
-    treeDataProvider: toolProvider,
+    treeDataProvider: toolProvider
   });
 
   toolProvider.refresh();
@@ -33,5 +32,3 @@ export function activate(context: ExtensionContext) {
     }
   }); */
 }
-
-export function deactivate() {}

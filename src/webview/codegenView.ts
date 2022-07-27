@@ -156,7 +156,6 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
   });
 
   const updateWebViewCfg = () => {
-    console.log('updateCodeGenCustomMethods: ', globalState.codeGenCustomMethods);
     webview.postMessage({
       command: 'updateCodeGenCustomMethods',
       data: globalState.codeGenCustomMethods
@@ -169,8 +168,8 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
   });
 }
 
-export function setcodeGenCustomMethodsCfgCb(cfg: Object) {
-  BaseConfig.setConfig('codegen.custom-methods', cfg).then(
+export function setcodeGenCustomMethodsCfgCb(cfg: any[]) {
+  BaseConfig.setConfig('codegen.custom-method', cfg).then(
     () => {
       window.showInformationMessage('自定义代码函数更新成功！');
       cacheCodeGenCustomMethods(cfg);
@@ -182,7 +181,7 @@ export function setcodeGenCustomMethodsCfgCb(cfg: Object) {
 }
 
 // 更新 codeGenCustomMethods
-export function cacheCodeGenCustomMethods(remindObj: Object) {
+export function cacheCodeGenCustomMethods(remindObj: any[]) {
   globalState.codeGenCustomMethods = remindObj;
 }
 
