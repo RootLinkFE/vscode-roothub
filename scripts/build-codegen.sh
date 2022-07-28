@@ -7,8 +7,8 @@
 
 cd ./app-packages/roothub-codegen 
 pwd
-yarn
-yarn build
+npm i
+npm run build
 echo '构建完成！'
 cd ../../
 ls -l templates/codegen
