@@ -1,3 +1,8 @@
+<!--
+ * @Author: ZtrainWilliams ztrain1224@163.com
+ * @Date: 2022-07-27 17:12:59
+ * @Description: 
+-->
 
 # Change Log
 
@@ -5,17 +10,22 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.3]
+
+- fix[codegen]: 调整遗留历史方法,修复部分选择数据问题
+- feat[codegen]: 显性生成代码入口; 选中复制样式; 回车调用获取
+
 ## [1.0.2]
 
 - fix[codegen]: 修复yarn依赖问题
 
 ## [1.0.1]
 
-- reat[codegen]: 自定义方法增加排序、状态
+- feat[codegen]: 自定义方法增加排序、状态
 
 ## [1.0.0]
 
-- reat[codegen]: swagger-ui2.0模式;自定义代码在线编辑；json、yaml文件格式支持；增加部分快捷复制功能
+- feat[codegen]: swagger-ui2.0模式;自定义代码在线编辑；json、yaml文件格式支持；增加部分快捷复制功能
 
 ## [0.1.3]
 
