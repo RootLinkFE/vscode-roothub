@@ -10,6 +10,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.4]
+
+- fix[codegen]: 增加url对doc.html的过滤
+
 ## [1.0.3]
 
 - fix[codegen]: 调整遗留历史方法,修复部分选择数据问题
