@@ -2,7 +2,7 @@
   "name": "roothub",
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "giscafer <giscafer@outlook.com>",
   "repository": {
     "type": "git",
@@ -90,7 +90,7 @@
               "description": "avue-api-request",
               "status": 1,
               "sort": 98,
-              "function": "/**\n* avue-api-request\n*/\nfunction generateApiDefineition(apiData) {\n  const { api, summary, method } = apiData;\n\n  const apiMatch = api.match(/[a-zA-Z0-9]*$/);\n  // window.lodash\n  const name = apiMatch && apiMatch.length > 0 ? lodash.camelCase(`${method} ${apiMatch[0]}`) : lodash.camelCase(api);\n\n  return `\n/**\n * ${summary}\n */\n export const ${name || 'fetch'} = (params) => {\n  return request(\n    {\n      url: '${api}',\n      method: '${method}'\n      params\n    }\n  ).then(responseHandle);\n};\n  `;\n}"
+              "function": "/**\n* avue-api-request\n*/\nfunction generateApiDefineition(apiData) {\n  const { api, summary, method } = apiData;\n\n  const apiMatch = api.match(/[a-zA-Z0-9]*$/);\n  // window.lodash\n  const name = apiMatch && apiMatch.length > 0 ? lodash.camelCase(`${method} ${apiMatch[0]}`) : lodash.camelCase(api);\n  let apiParams = 'params';\n  let apiPath = api;\n  const apiStrReg = /\\{([\\d\\D]*)\\}/g;\n  if (method === 'post') {\n    apiParams = 'data: params';\n  }\n  let argumentsData = ['params'];\n  const matchPathId = apiStrReg.exec(api);\n  if (matchPathId) {\n    argumentsData.unshift(matchPathId[1]);\n    apiPath = apiPath.replace(apiStrReg, function (str) {\n      return `$${str}`;\n    });\n  }\n\n  return `\n/**\n * ${summary}\n */\n const ${name || 'fetch'} = (${argumentsData.join(', ')}) => {\n  return axios(\n    {\n      path: ${'`'}${api}${'`'},\n      method: '${method}'\n      ${apiParams}\n    }\n  ).then(responseHandle);\n};\n  `;\n}"
             }
           ],
           "description": "自定义代码生成方法"
