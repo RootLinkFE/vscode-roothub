@@ -10,6 +10,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.7]
+
+- fix: 修复codegen.custom-method的avueTable自定义生成方法
 ## [1.0.6]
 
 - feat[codegen]: 新增导出json功能
