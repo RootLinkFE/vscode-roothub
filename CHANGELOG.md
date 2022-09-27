@@ -10,6 +10,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.6]
+
+- feat[codegen]: 新增导出json功能
+
 ## [1.0.5]
 
 - chore[codegen]: api生成方法增强
