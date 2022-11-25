@@ -132,7 +132,7 @@ function setStorage(context: any, webview: Webview, panelEvents: EventEmitter) {
 }
 
 /**
- * @description: 初始化CodeGenCustomMethods与vscode的通信
+ * @description: 初始化CodeGenCustomMethods、Setting与vscode的通信
  * @param {Webview} webview
  * @param {EventEmitter} panelEvents
  * @return {*}
@@ -145,6 +145,10 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
       case 'saveCodeGenCustomMethods': // 自定义代码生成方法
         setcodeGenCustomMethodsCfgCb(message.data);
         return;
+      case 'saveCodeGenSettings': // 保存设置数据
+        console.log('saveCodeGenSettings', message);
+        setcodeGenSettingsCfgCb(message.data);
+        return;
     }
   });
 
@@ -153,12 +157,22 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
       command: 'updateCodeGenCustomMethods',
       data: globalState.codeGenCustomMethods
     });
+
+    webview.postMessage({
+      command: 'updateCodeGenSettings',
+      data: globalState.codeGenSetting
+    });
   });
 
   const updateWebViewCfg = () => {
     webview.postMessage({
       command: 'updateCodeGenCustomMethods',
       data: globalState.codeGenCustomMethods
+    });
+
+    webview.postMessage({
+      command: 'updateCodeGenSettings',
+      data: globalState.codeGenSetting
     });
   };
   events.on('onDidChangeConfiguration', updateWebViewCfg);
@@ -183,6 +197,23 @@ export function setcodeGenCustomMethodsCfgCb(cfg: any[]) {
 // 更新 codeGenCustomMethods
 export function cacheCodeGenCustomMethods(remindObj: any[]) {
   globalState.codeGenCustomMethods = remindObj;
+}
+
+export function setcodeGenSettingsCfgCb(cfg: any) {
+  BaseConfig.setConfig('codegen.setting', cfg).then(
+    () => {
+      window.showInformationMessage('基础设置更新成功！');
+      cacheCodeGenSettings(cfg);
+    },
+    err => {
+      console.error(err);
+    }
+  );
+}
+
+// 更新 codeGenSetting
+export function cacheCodeGenSettings(data: any) {
+  globalState.codeGenSetting = data;
 }
 
 export default codeGenView;

@@ -10,6 +10,11 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.8]
+
+- chore: api定义生成增加前缀自动添加设置，拥有默认前缀（对应url地址）
+- chore: menu title 右侧增加api数量显示
+
 ## [1.0.7]
 
 - fix: 修复codegen.custom-method的avueTable自定义生成方法
