@@ -2,7 +2,7 @@
   "name": "roothub",
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "author": "giscafer <giscafer@outlook.com>",
   "repository": {
     "type": "git",
@@ -90,7 +90,7 @@
               "description": "avue-api-request",
               "status": 1,
               "sort": 98,
-              "function": "/**\n* avue-api-request\n*/\nfunction generateApiDefineition(apiData, prefix) {\n  const { api, summary, method } = apiData;\n\n  const apiMatch = api.match(/[a-zA-Z0-9]*$/);\n  // window.lodash\n  const name = apiMatch && apiMatch.length > 0 ? lodash.camelCase(`${method} ${apiMatch[0]}`) : lodash.camelCase(api);\n  let apiParams = 'params';\n  let apiPath = prefix + api;\n  const apiStrReg = /\\{([\\d\\D]*)\\}/g;\n  if (method === 'post') {\n    apiParams = 'data: params,';\n  }\n  \n  let packTableData = '';\n  if(/[page|list]$/.test(api)) {\n    packTableData = '.then(packTableData)';\n  }\n  \n  let argumentsData = ['params'];\n  const matchPathId = apiStrReg.exec(api);\n  if (matchPathId) {\n    argumentsData.unshift(matchPathId[1]);\n    apiPath = apiPath.replace(apiStrReg, function (str) {\n      return `$${str}`;\n    });\n  }\n\n  return `\n/**\n * ${summary}\n */\nexport const ${name || 'fetch'} = (${argumentsData.join(', ')}) => {\n  return request(\n    {\n      url: ${'`'}${api}${'`'},\n      method: '${method}',\n      ${apiParams}\n    }\n  ).then(responseHandle)${packTableData};\n};\n  `;\n}"
+              "function": "/**\n* avue-api-request\n*/\nfunction generateApiDefineition(apiData, prefix) {\n  const { api, summary, method, requestParams } = apiData;\n  const utilsFn = window.utilsFn ?? {};\n\n  const apiMatch = api.match(/[a-zA-Z0-9]*$/);\n  // window.lodash\n  const name = apiMatch && apiMatch.length > 0 ? lodash.camelCase(`${method} ${apiMatch[0]}`) : lodash.camelCase(api);\n  let apiParams = 'params';\n  let apiPath = prefix + api;\n  const apiStrReg = /\\{([\\d\\D]*)\\}/g;\n  if (method === 'post') {\n    apiParams = 'data: params,';\n  }\n  \n  let packTableData = '';\n  if(/[page|list]$/.test(api)) {\n    packTableData = '.then(packTableData)';\n  }\n  \n  let argumentsData = ['params'];\n  const matchPathId = apiStrReg.exec(api);\n  if (matchPathId) {\n    argumentsData.unshift(matchPathId[1]);\n    apiPath = apiPath.replace(apiStrReg, function (str) {\n      return `$${str}`;\n    });\n  }\n  const notes = utilsFn.generateApiNotes(apiData)\n\n  return `${notes}\nexport const ${name || 'fetch'} = (${argumentsData.join(', ')}) => {\n  return request(\n    {\n      url: ${'`'}${api}${'`'},\n      method: '${method}',\n      ${apiParams}\n    }\n  ).then(responseHandle)${packTableData};\n};\n  `;\n}"
             }
           ],
           "description": "自定义代码生成方法"

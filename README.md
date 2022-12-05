@@ -21,7 +21,7 @@
   - api、字段、名称一键复制
   - 弹窗 ProForm 表单配置代码生成
   - 自定义代码在线配置生成，可复制二次编辑
-  - 枚举、Typescript定义生成
+  - api请求、枚举、Typescript定义生成
   - Table 列配置生成
 
 ## TODO

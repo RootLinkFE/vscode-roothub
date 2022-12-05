@@ -10,6 +10,11 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.9]
+
+- feat: api请求函数注释生成
+- chore: 枚举生成生成结果补强
+
 ## [1.0.8]
 
 - chore: api定义生成增加前缀自动添加设置，拥有默认前缀（对应url地址）
