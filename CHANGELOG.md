@@ -10,6 +10,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.10]
+
+- fix: api生成方法修复
+
 ## [1.0.9]
 
 - feat: api请求函数注释生成
