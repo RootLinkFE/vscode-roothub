@@ -10,6 +10,12 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.0]
+
+- feat: 图片提取文本功能，文本结合api-docs生成匹配代码
+- feat: 图片提取文本增加历史记录功能
+- fix: 自定义方法编辑form默认值修复
+
 ## [1.0.10]
 
 - fix: api生成方法修复
