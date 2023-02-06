@@ -10,6 +10,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.1]
+- chore: 粘贴图片上传功能
+- fix: observer(HistoryTextDropdown)
+
 ## [1.1.0]
 
 - feat: 图片提取文本功能，文本结合api-docs生成匹配代码
