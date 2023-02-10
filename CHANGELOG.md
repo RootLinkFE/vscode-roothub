@@ -1,14 +1,12 @@
-<!--
- * @Author: ZtrainWilliams ztrain1224@163.com
- * @Date: 2022-07-27 17:12:59
- * @Description: 
--->
-
 # Change Log
 
 All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+
+## [1.1.2]
+- feat: 文字提取方法支持使用和定义自定义方法
+- chore: 代码生成方法avue-pro-table
 
 ## [1.1.1]
 - chore: 粘贴图片上传功能

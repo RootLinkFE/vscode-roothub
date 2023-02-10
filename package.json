@@ -2,7 +2,7 @@
   "name": "roothub",
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "giscafer <giscafer@outlook.com>",
   "repository": {
     "type": "git",
@@ -91,6 +91,17 @@
               "status": 1,
               "sort": 98,
               "function": "/**\n* avue-api-request\n*/\nfunction generateApiDefineition(apiData, prefix) {\n  const { api, summary, method, requestParams } = apiData;\n  const utilsFn = window.utilsFn ?? {};\n\n  const apiMatch = api.match(/[a-zA-Z0-9]*$/);\n  // window.lodash\n  const name = apiMatch && apiMatch.length > 0 ? lodash.camelCase(`${method} ${apiMatch[0]}`) : lodash.camelCase(api);\n  let apiParams = 'params';\n  let apiPath = prefix + api;\n  const apiStrReg = /\\{([\\d\\D]*)\\}/g;\n  if (method === 'post') {\n    apiParams = 'data: params,';\n  }\n  \n  let packTableData = '';\n  if(/[page|list]$/.test(api)) {\n    packTableData = '.then(packTableData)';\n  }\n  \n  let argumentsData = ['params'];\n  const matchPathId = apiStrReg.exec(api);\n  if (matchPathId) {\n    argumentsData.unshift(matchPathId[1]);\n    apiPath = apiPath.replace(apiStrReg, function (str) {\n      return `$${str}`;\n    });\n  }\n  const notes = utilsFn.generateApiNotes(apiData)\n\n  return `${notes}\nexport const ${name || 'fetch'} = (${argumentsData.join(', ')}) => {\n  return request(\n    {\n      url: ${'`'}${apiPath}${'`'},\n      method: '${method}',\n      ${apiParams}\n    }\n  ).then(responseHandle)${packTableData};\n};\n  `;\n}"
+            },
+            {
+              "key": "baidu-general_basic",
+              "label": "baidu-general_basic",
+              "type": "extract",
+              "source": "custom",
+              "language": "javascript",
+              "description": "百度-通用文字识别（标准版）",
+              "status": 1,
+              "sort": 97,
+              "function": "function generateExtractBaiduOcrapi(file, values) {\n  async function generateExtract(file, values) {\n    const utilsFn = window.utilsFn ?? {};\n    const getFiletoBase64 = (f) => {\n      return utilsFn.filetoBase64(f).then((imageBase64) => {\n        return imageBase64;\n      });\n    };\n    const imageBase64 = await getFiletoBase64(file);\n    const formData = new FormData();\n    formData.append('image', imageBase64);\n    formData.append('language_type', 'CHN_ENG');\n    formData.append('detect_language', 'false'); // 是否检测语言\n    formData.append('paragraph', 'false'); // 是否输出段落信息\n    formData.append('probability', 'false'); // 是否返回识别结果中每一行的置信度\n    formData.append('detect_direction', 'false'); // 是否检测图像朝向\n\n    const res = await utilsFn.axios({\n      method: 'POST',\n      url: 'https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic',\n      headers: { 'content-type': 'application/x-www-form-urlencoded' },\n      params: {\n        access_token: '24.4be870763f218d0ce9cebd8d60755084.2592000.1678246269.282335-30204631' || 'access_token',\n      },\n      data: formData,\n    });\n    const { data } = res;\n    if (res.status === 200 && data.words_result?.length > 0) {\n      return data;\n    } else {\n      return res;\n    }\n  }\n  return generateExtract(file, values);\n}"
             }
           ],
           "description": "自定义代码生成方法"

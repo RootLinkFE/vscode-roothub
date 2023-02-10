@@ -16,17 +16,15 @@
 - RootHub 物料平台
   - http://roothub.leekhub.com/
 - CodeGen-OpenApi
-  - 类swagger-ui2.0模式查看接口文档，支持当前菜单搜索
+  - swagger-ui2.0接口文档模式平替，功能升级api、字段、名称一键复制
   - 支持OpenApi内容格式的json、yaml文件解析成接口文档
-  - api、字段、名称一键复制
-  - 弹窗 ProForm 表单配置代码生成
-  - 自定义代码在线配置生成，可复制二次编辑
-  - api请求、枚举、Typescript定义生成
-  - Table 列配置生成
+  - api请求、枚举、Typescript定义、Table 列配置代码生成，且支持在线自定义
+  - 粘贴截图一键文字提取，结合接口文档快捷生成代码
 
 ## TODO
 
 - WIP……
+- 在线简易接口连接
 - 欢迎提建议
 
 ## Screenshots
