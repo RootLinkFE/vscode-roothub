@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.3]
+- fix: generateTableColumnsProps增加searchPlaceholder
+
 ## [1.1.2]
 - feat: 文字提取方法支持使用和定义自定义方法
 - chore: 代码生成方法avue-pro-table
