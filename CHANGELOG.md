@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.5]
+- feat: 分割文本过滤方法集成
+- fix: api下拉代码生成修改为响应式
 
 ## [1.1.4]
 - fix: avue-column方法中row.description报错
