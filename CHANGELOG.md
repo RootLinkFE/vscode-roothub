@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.7]
+- fix: api-复制处理
+
 ## [1.1.6]
 - fix: url获取钱加强正则过滤
 - ref: api-处理接口传参格式
