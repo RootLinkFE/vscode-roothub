@@ -4,6 +4,11 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.8]
+- ref: api-paths 代码生成
+- fix: resources-tree设置min-width
+- fix: dataSaveToJSON-selectedResource?.name
+
 ## [1.1.7]
 - fix: api-复制处理
 
