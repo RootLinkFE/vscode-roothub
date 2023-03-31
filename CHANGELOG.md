@@ -4,6 +4,11 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.9]
+- feat: 原始代码与响应参数匹配字段功能
+- ref: 分割剔除非中文及英文-方法
+- ref: api请求函数注释生成-增加description
+
 ## [1.1.8]
 - ref: api-paths 代码生成
 - fix: resources-tree设置min-width
