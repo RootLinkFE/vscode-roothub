@@ -6,7 +6,8 @@ let events = new EventEmitter();
 let isDevelopment = false; // 是否开发环境
 let codeGenSetting = {
   language: 'zh-CN',
-  theme: 'default'
+  theme: 'default',
+  apiurlPrefixList: []
 };
 let codeGenCustomMethods: any[] = [];
 

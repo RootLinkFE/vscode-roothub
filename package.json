@@ -2,7 +2,7 @@
   "name": "roothub",
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
-  "version": "1.0.0",
+  "version": "1.1.9",
   "author": "giscafer <giscafer@outlook.com>",
   "repository": {
     "type": "git",
@@ -13,7 +13,8 @@
     "roothub",
     "codegen",
     "vscode",
-    "frontend"
+    "frontend",
+    "openApi"
   ],
   "publisher": "giscafer",
   "icon": "resources/logo.png",
@@ -77,7 +78,9 @@
               "source": "custom",
               "language": "vue",
               "description": "avue-table组件自定义方法",
-              "function": "/**\n * @description: generateAvueTablePageCode\n * selectedData\n * selectedData.requestSelectedData 请求参数-勾选\n * selectedData.responseSelectedData 响应参数-勾选\n * selectedData.modelData 模型参数-勾选\n * selectedData.resourceDetail 当前api菜单完整数据\n * window.utilsFn: {\n    getApiNameAsPageName: any;\n    prettyCode: any;\n    generateTableColumnsProps: any;\n    cleanParameterDescription: any;\n  },\n * @return {string}\n */\n\nfunction generateAvueTablePageCode(selectedData, api) {\n  const utilsFn = window.utilsFn ?? {};\n  const { responseSelectedData: body } = selectedData;\n\n  const parametersSet = new Set();\n  (api?.parameters ?? []).forEach((param) => {\n    parametersSet.add(param.name);\n  });\n  const columnCode = utilsFn.generateTableColumnsProps(body, true, (row, index) => {\n    let result = {\n      prop: row.name,\n      label: utilsFn.cleanParameterDescription(row.description),\n      minWidth: 150,\n      overHidden: true,\n    };\n    const item = parametersSet.has(row.name);\n    if (item) {\n      result.search = true;\n\n      if (\n        row.name.indexOf('状态') !== -1 ||\n        (row.description && row.description.indexOf('ENUM#') !== -1) ||\n        (row.enum && row.enum.length > 0)\n      ) {\n        result.searchType = 'select';\n      }\n      if (['date', 'time'].includes(row.name)) {\n        result.searchType = 'datetime';\n        result.format = 'YYYY-MM-DD HH:mm:ss';\n        result.valueFormat = 'YYYY-MM-DD HH:mm:ss';\n      }\n    }\n    return result;\n  });\n\n  const componentName = utilsFn.getApiNameAsPageName(api.api);\n  const matchApiName = api?.api.match(/^\\/api\\/[a-zA-Z]+/);\n  const apiName = matchApiName && matchApiName?.length > 0 ? matchApiName[0].replace('/api/', '') : '';\n\n  return `\n  /**  * ${api.description ?? api.summary} */\n    <template>\n    <avue-crud\n      :data=\"records\"\n      :page=\"pagination\"\n      :table-loading=\"loading\"\n      v-model:search=\"searchParams\"\n      :option=\"option\"\n      v-enter=\"handleSearch\"\n      @on-load=\"handleSearch\"\n      @search-reset=\"handleSearch\"\n      @refresh-change=\"handleSearch\"\n      @search-change=\"handleSearch\"\n      @size-change=\"handleSearch\"\n      @current-change=\"handleSearch\"\n    >\n    </avue-crud>\n    </template>\n    \n    <script setup>\n    import { ref, computed } from 'vue';\n    import { crudOptions } from '@/core/crud';\n    import {\n      packTableQueryParams,\n      usePageRequest,\n    } from '@/util/businessUtil';\n    import { fetch${componentName}List } from '@/api/${apiName}';\n  \n    const searchParams = ref({});\n    \n    const option = computed(() => ({\n      ...crudOptions(),\n      addBtn: false,\n      editBtn: false,\n      delBtn: false,\n      searchMenuSpan: 24,\n      searchLabelWidth: 120,\n      minWidth: 150,\n      header: true,\n      menu: false,\n      column: ${columnCode},\n    }));\n  \n    const {\n      records,\n      pagination,\n      loading,\n      run: fetchTableData,\n    } = usePageRequest(fetch${componentName}List, {\n      manual: true,\n    });\n  \n    const handleSearch = (params, done) => {\n      const tmp = packTableQueryParams(\n        ...searchParams.value,\n        pagination\n      );\n      fetchTableData(tmp)\n        .then((res) => {\n          return res;\n        })\n        .finally(done);\n    };\n    </script>\n    <style></style>\n    `;\n}\n"
+              "status": 1,
+              "sort": 99,
+              "function": "/**\n * @description: generateAvueTablePageCode\n * selectedData\n * selectedData.requestSelectedData 请求参数-勾选\n * selectedData.responseSelectedData 响应参数-勾选\n * selectedData.modelData 模型参数-勾选\n * selectedData.resourceDetail 当前api菜单完整数据\n * window.utilsFn: {\n    getApiNameAsPageName: any;\n    prettyCode: any;\n    generateTableColumnsProps: any;\n    cleanParameterDescription: any;\n    filterTransformArrayByRows: any;\n  },\n * @return {string}\n */\n\nfunction generateAvueTablePageCode(selectedData, api) {\n  const utilsFn = window.utilsFn ?? {};\n  let { responseSelectedData: body, transformTextArray } = selectedData;\n  if (transformTextArray) {\n    body = utilsFn.filterTransformArrayByRows(body, transformTextArray);\n  }\n  const parametersSet = new Set();\n  (api?.parameters ?? []).forEach((param) => {\n    parametersSet.add(param.name);\n  });\n  const columnCode = utilsFn.generateTableColumnsProps(body, true, (row, index) => {\n    let result = {\n      prop: row.name,\n      label: utilsFn.cleanParameterDescription(row.description),\n      minWidth: 150,\n      overHidden: true,\n    };\n    const item = parametersSet.has(row.name);\n    if (item) {\n      result.search = true;\n\n      if (\n        row.name.indexOf('状态') !== -1 ||\n        (row.description && row.description.indexOf('ENUM#') !== -1) ||\n        (row.enum && row.enum.length > 0)\n      ) {\n        result.searchType = 'select';\n      }\n      if (['date', 'time'].includes(row.name)) {\n        result.searchType = 'datetime';\n        result.format = 'YYYY-MM-DD HH:mm:ss';\n        result.valueFormat = 'YYYY-MM-DD HH:mm:ss';\n      }\n    }\n    return result;\n  });\n\n  const componentName = utilsFn.getApiNameAsPageName(api.api);\n  const matchApiName = api?.api.match(/^\\/api\\/[a-zA-Z]+/);\n  const apiName = matchApiName && matchApiName?.length > 0 ? matchApiName[0].replace('/api/', '') : '';\n\n  return `<!-- ${api.description ?? api.summary} -->\n<template>\n  <avue-crud\n    :data=\"records\"\n    v-model:page=\"pagination\"\n    :table-loading=\"loading\"\n    v-model:search=\"searchParams\"\n    :option=\"option\"\n    v-enter=\"handleSearch\"\n    @on-load=\"handleSearch\"\n    @search-reset=\"handleSearch\"\n    @refresh-change=\"handleSearch\"\n    @search-change=\"handleSearch\"\n    @size-change=\"handleSearch\"\n    @current-change=\"handleSearch\"\n  >\n  </avue-crud>\n</template>\n\n<script setup>\nimport { ref, computed } from 'vue';\nimport { crudOptions } from '@/core/crud';\nimport { packTableQueryParams, usePageRequest} from '@/util/businessUtil';\nimport { fetch${componentName}List } from '@/api/${apiName}';\n\nconst searchParams = ref({});\n\nconst option = computed(() => ({\n  ...crudOptions(),\n  addBtn: false,\n  editBtn: false,\n  delBtn: false,\n  searchMenuSpan: 24,\n  searchLabelWidth: 120,\n  minWidth: 150,\n  header: true,\n  menu: false,\n  column: ${columnCode},\n}));\n\nconst {\n  records,\n  pagination,\n  loading,\n  run: fetchTableData,\n} = usePageRequest(fetch${componentName}List, {\n  manual: true,\n});\n\nconst handleSearch = (params, done) => {\n  const tmp = packTableQueryParams(...searchParams.value, pagination);\n  fetchTableData(tmp)\n    .then((res) => {\n      return res;\n    })\n    .finally(done);\n};\n</script>\n<style></style>\n\n`;\n}\n"
             },
             {
               "key": "avueApiRequest",
@@ -86,14 +89,31 @@
               "source": "custom",
               "language": "javascript",
               "description": "avue-api-request",
-              "function": "/**\n* avue-api-request\n*/\nfunction generateApiDefineition(apiData) {\n  const { api, summary, method } = apiData;\n\n  const apiMatch = api.match(/[a-zA-Z0-9]*$/);\n  // window.lodash\n  const name = apiMatch && apiMatch.length > 0 ? lodash.camelCase(`${method} ${apiMatch[0]}`) : lodash.camelCase(api);\n\n  return `\n/**\n * ${summary}\n */\n export const ${name || 'fetch'} = (params) => {\n  return request(\n    {\n      url: '${api}',\n      method: '${method}'\n      params\n    }\n  ).then(responseHandle);\n};\n  `;\n}"
+              "status": 1,
+              "sort": 98,
+              "function": "/**\n* avue-api-request\n*/\nfunction generateApiDefineition(apiData, prefix) {\n  const { api, summary, method, parameters } = apiData;\n  const utilsFn = window.utilsFn ?? {};\n\n  const apiMatch = api.match(/[a-zA-Z0-9]*$/);\n  // window.lodash\n  const name = apiMatch && apiMatch.length > 0 ? lodash.camelCase(`${method} ${apiMatch[0]}`) : lodash.camelCase(api);\n  let apiParams = 'params';\n  let apiPath = prefix + api;\n  const apiStrReg = /\\{([\\d\\D]*)\\}/g;\n  let argumentsData = ['params'];\n  let inBody = false;\n  let inQuery = false;\n  (parameters || []).forEach((v) => {\n    if (v.in === 'body') {\n      inBody = true;\n    } else if (v.in === 'query') {\n      inQuery = true;\n    }\n  });\n  // 处理接口传参格式\n  if (inBody && inQuery) {\n    argumentsData.push('data');\n    apiParams = `params,\n    data: data`;\n  } else if (inQuery) {\n    apiParams = 'params';\n  } else if (inBody || method === 'post') {\n    apiParams = 'data: params';\n  }\n\n  let packTableData = '';\n  if (/(page|list)$/.test(api)) {\n    packTableData = '.then(packTableData)';\n  }\n\n  const matchPathId = apiStrReg.exec(api);\n  if (matchPathId) {\n    argumentsData.unshift(matchPathId[1]);\n    apiPath = apiPath.replace(apiStrReg, function (str) {\n      return `$${str}`;\n    });\n  }\n  const notes = utilsFn.generateApiNotes(apiData)\n\n  return `${notes}\n  export const ${name || 'fetch'} = (${argumentsData.join(', ')}) => {\n    return request(\n      {\n        url: ${'`'}${apiPath}${'`'},\n        method: '${method}',\n        ${apiParams}\n      }\n    ).then(responseHandle)${packTableData};\n  };\n    `;\n}"
+            },
+            {
+              "key": "baidu-general_basic",
+              "label": "baidu-general_basic",
+              "type": "extract",
+              "source": "custom",
+              "language": "javascript",
+              "description": "百度-通用文字识别（标准版）",
+              "status": 1,
+              "sort": 97,
+              "function": "function generateExtractBaiduOcrapi(file, values) {\n  async function generateExtract(file, values) {\n    const utilsFn = window.utilsFn ?? {};\n    const getFiletoBase64 = (f) => {\n      return utilsFn.filetoBase64(f).then((imageBase64) => {\n        return imageBase64;\n      });\n    };\n    const imageBase64 = await getFiletoBase64(file);\n    const formData = new FormData();\n    formData.append('image', imageBase64);\n    formData.append('language_type', 'CHN_ENG');\n    formData.append('detect_language', 'false'); // 是否检测语言\n    formData.append('paragraph', 'false'); // 是否输出段落信息\n    formData.append('probability', 'false'); // 是否返回识别结果中每一行的置信度\n    formData.append('detect_direction', 'false'); // 是否检测图像朝向\n\n    const res = await utilsFn.axios({\n      method: 'POST',\n      url: 'https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic',\n      headers: { 'content-type': 'application/x-www-form-urlencoded' },\n      params: {\n        access_token: '24.4be870763f218d0ce9cebd8d60755084.2592000.1678246269.282335-30204631' || 'access_token',\n      },\n      data: formData,\n    });\n    const { data } = res;\n    if (res.status === 200 && data.words_result?.length > 0) {\n      return data;\n    } else {\n      return res;\n    }\n  }\n  return generateExtract(file, values);\n}"
             }
           ],
           "description": "自定义代码生成方法"
         },
         "codegen.setting": {
           "type": "object",
-          "default": {},
+          "default": {
+            "language": "zh-CN",
+            "theme": "default",
+            "apiurlPrefixList": []
+          },
           "description": "codegen基础设置"
         }
       }
