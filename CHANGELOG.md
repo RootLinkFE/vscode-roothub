@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.10]
+- feat: baidu-ocrapi升级，提升长截图的文字提出精度
+
 ## [1.1.9]
 - feat: 原始代码与响应参数匹配字段功能
 - ref: 分割剔除非中文及英文-方法
