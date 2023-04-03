@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.11]
+- fix: 生成base64图片的样式影响，提升截图文字提取精度
+
 ## [1.1.10]
 - feat: baidu-ocrapi升级，提升长截图的文字提出精度
 
