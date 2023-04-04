@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.12]
+- ref: 原始代码与响应参数匹配字段-加强非完整数组功能
+
 ## [1.1.11]
 - fix: 生成base64图片的样式影响，提升截图文字提取精度
 
