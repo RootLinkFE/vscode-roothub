@@ -95,7 +95,7 @@
             },
             {
               "key": "baidu-general_basic",
-              "label": "自定义百度高精度OCP",
+              "label": "自定义百度高精度OCR",
               "type": "extract",
               "source": "custom",
               "language": "javascript",
