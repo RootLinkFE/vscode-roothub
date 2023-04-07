@@ -8,6 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - ref: 文本代码生成方法补充
 - fix: api生成方法完善
 - ref: ocrapi默认选择ExtractBaiduOcrapi；还原按钮；提取页面调整
+- ref: AvueSearchColumns
 
 ## [1.1.12]
 - ref: 原始代码与响应参数匹配字段-加强非完整数组功能
