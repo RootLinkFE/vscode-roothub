@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.14]
+- ref: AvueColumn代码与接口文档结合方法加强
+
 ## [1.1.13]
 - ref: 文本代码生成方法补充
 - fix: api生成方法完善
