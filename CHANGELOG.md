@@ -4,6 +4,12 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.0]
+- feat: 文本翻译功能-接入百度翻译；基础配置弹窗
+- ref: 下拉菜单增加刷新按钮功能
+- ref: api请求函数注释生成-增加children注释
+- chore: 文本拼接功能；历史文本弹窗优化
+
 ## [1.1.15]
 - ref: api名称生成
 
