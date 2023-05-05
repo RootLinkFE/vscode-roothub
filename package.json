@@ -2,7 +2,7 @@
   "name": "roothub",
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "giscafer <giscafer@outlook.com>",
   "repository": {
     "type": "git",

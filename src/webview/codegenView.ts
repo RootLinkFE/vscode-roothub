@@ -50,9 +50,18 @@ function codeGenView(context: ExtensionContext) {
         return;
       case 'fetch':
         console.log('「RootHub」', 'fetch:', message.data);
+        const messageData = message.data;
+        const url = messageData?.url;
+        if (!url) {
+          console.error('fetch null url');
+          return;
+        }
         axios({
-          url: encodeURI(message.data?.url),
-          headers: message.data?.headers,
+          url: encodeURI(url),
+          method: messageData.method ?? 'GET',
+          headers: message.data.headers,
+          data: messageData.data ?? {},
+          params: messageData.params ?? {},
         })
           .then(postFetchResponseFactory(panel.webview, true, message.data.sessionId))
           .catch(postFetchResponseFactory(panel.webview, false, message.data.sessionId));

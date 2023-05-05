@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.1]
+- fix: ExtractBaiduOcrapi 跨域问题；baiduApiToken维护
+
 ## [1.2.0]
 - feat: 文本翻译功能-接入百度翻译；基础配置弹窗
 - ref: 下拉菜单增加刷新按钮功能
