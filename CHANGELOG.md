@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.2]
+- fix: storageHistoryTexts储存再显示问题
+
 ## [1.2.1]
 - fix: ExtractBaiduOcrapi 跨域问题；baiduApiToken维护
 

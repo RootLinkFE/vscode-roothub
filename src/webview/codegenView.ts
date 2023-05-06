@@ -159,6 +159,10 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
         return;
       case 'saveCodeGenSettings': // 保存设置数据
         console.log('saveCodeGenSettings', message);
+        setcodeGenSettingsCfgCb(message.data, true);
+        return;
+      case 'updateCodeGenSettings': // 保存设置数据
+        console.log('updateCodeGenSettings', message);
         setcodeGenSettingsCfgCb(message.data);
         return;
     }
@@ -211,10 +215,10 @@ export function cacheCodeGenCustomMethods(remindObj: any[]) {
   globalState.codeGenCustomMethods = remindObj;
 }
 
-export function setcodeGenSettingsCfgCb(cfg: any) {
+export function setcodeGenSettingsCfgCb(cfg: any, b?: boolean) {
   BaseConfig.setConfig('codegen.setting', cfg).then(
     () => {
-      window.showInformationMessage('基础设置更新成功！');
+      b && window.showInformationMessage('基础设置更新成功！');
       cacheCodeGenSettings(cfg);
     },
     (err) => {
