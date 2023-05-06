@@ -4,6 +4,10 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.3]
+- fix: 基础设置参数设置问题
+- fix: 修复api请求函数注释生成
+
 ## [1.2.2]
 - fix: storageHistoryTexts储存再显示问题
 
