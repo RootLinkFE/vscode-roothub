@@ -113,7 +113,7 @@ function codeGenView(context: ExtensionContext) {
 function postFetchResponseFactory(webview: Webview, success: boolean, sessionId: string) {
   return (response: any) => {
     if (!success) {
-      console.log('「RootHub」', 'codgen 请求失败');
+      console.log('「RootHub」', 'codgen 请求失败', response);
     }
     const { status, data } = response;
 

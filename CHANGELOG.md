@@ -4,8 +4,13 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.4]
+- chore: 新增代码匹配全替换方法
+- fix: textCodeGenElementTable
+- chore: 新增el-table-column的代码替换方法：generate-el-table-column-transcoding
+
 ## [1.2.3]
-- fix: 基础设置参数设置问题
+- fix: 基础设置参数设置问题 
 - fix: 修复api请求函数注释生成
 
 ## [1.2.2]
