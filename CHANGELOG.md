@@ -4,6 +4,12 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.3.0]
+- feat: 右键菜单-OpenApi-CodeGen即时搜索；api详情搜索功能（CSS Custom Highlight）
+- feat: 右键菜单-OpenApi-CodeGen匹配代码
+- feat: 左侧选择树收起功能
+- fix: formatUrlChar match index.html
+
 ## [1.2.4]
 - chore: 新增代码匹配全替换方法
 - fix: textCodeGenElementTable

@@ -2,7 +2,7 @@
   "name": "roothub",
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "author": "giscafer <giscafer@outlook.com>",
   "repository": {
     "type": "git",
@@ -60,10 +60,28 @@
         "contents": "出错了！！欢迎提Issues >> [Github](https://github.com/RootLinkFE/vscode-roothub)"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "roothub.codegen.AutoMatchActiveText",
+          "group": "navigation",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "roothub.codegen.SearchFixedText",
+          "group": "navigation",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "roothub.helloWorld",
-        "title": "Hello World"
+        "command": "roothub.codegen.AutoMatchActiveText",
+        "title": "OpenApi-CodeGen匹配代码"
+      },
+      {
+        "command": "roothub.codegen.SearchFixedText",
+        "title": "OpenApi-CodeGen即时搜索"
       }
     ],
     "configuration": {
@@ -112,7 +130,9 @@
           "default": {
             "language": "zh-CN",
             "theme": "default",
-            "apiurlPrefixList": []
+            "apiurlPrefixList": [],
+            "matchCodeStatus": true,
+            "matchCodeFnKey": ""
           },
           "description": "codegen基础设置"
         }

@@ -11,20 +11,26 @@ import { events, formatHTMLWebviewResourcesUrl, getTemplateFileListContent } fro
 import ReusedWebviewPanel from './ReusedWebviewPanel';
 import { BaseConfig } from '../shared/BaseConfig';
 
+type WebviewMessage = {
+  type: string; // 消息类型
+  activeText: string; // 选中文本
+};
+
 const DEV_URL = 'http://localhost:3031';
 
 let mounted = false;
 
 let panelEvents: EventEmitter;
 
-function codeGenView(context: ExtensionContext) {
+function codeGenView(context: ExtensionContext, webviewMessage?: WebviewMessage) {
   const panel = ReusedWebviewPanel.create('roothub.codeGenView', `CodeGen`, ViewColumn.One, {
     enableScripts: true,
     retainContextWhenHidden: true,
   });
 
   if (mounted) {
-    return;
+    handlePostWebviewActiveText(panel.webview, webviewMessage, mounted);
+    return panel;
   }
   mounted = true;
   panelEvents = new EventEmitter();
@@ -36,6 +42,7 @@ function codeGenView(context: ExtensionContext) {
     switch (message.command) {
       case 'pageReady':
         panelEvents.emit('pageReady');
+        handlePostWebviewActiveText(panel.webview, webviewMessage, false);
         return;
       case 'openInCodeSandBox':
         // TODO: 暂不知道VSCode解析html并跳转到默认浏览器
@@ -101,6 +108,7 @@ function codeGenView(context: ExtensionContext) {
     );
     panel.webview.html = getTemplateFileListContent(['codegen', 'index.html'], panel.webview);
   }
+  return panel;
 }
 /**
  * vscode请求，解决跨域问题
@@ -150,8 +158,6 @@ function setStorage(context: any, webview: Webview, panelEvents: EventEmitter) {
  * @return {*}
  */
 function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
-  console.log('globalState: ', globalState);
-
   panelEvents.on('onDidReceiveMessage', (message) => {
     switch (message.command) {
       case 'saveCodeGenCustomMethods': // 自定义代码生成方法
@@ -162,7 +168,6 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
         setcodeGenSettingsCfgCb(message.data, true);
         return;
       case 'updateCodeGenSettings': // 保存设置数据
-        console.log('updateCodeGenSettings', message);
         setcodeGenSettingsCfgCb(message.data);
         return;
     }
@@ -196,6 +201,28 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
   panelEvents.on('onDidDispose', () => {
     events.off('onDidChangeConfiguration', updateWebViewCfg);
   });
+}
+
+/**
+ * 向codegenWebview推送选中文本的触发事件
+ * @param webview Webview
+ * @param WebviewMessage 消息数据
+ */
+function handlePostWebviewActiveText(
+  webview: Webview,
+  webviewMessage?: WebviewMessage,
+  mounted?: boolean
+) {
+  const { activeText } = webviewMessage || {};
+
+  activeText &&
+    webview.postMessage({
+      command: 'postWebviewActiveText',
+      data: {
+        mounted,
+        ...webviewMessage,
+      },
+    });
 }
 
 export function setcodeGenCustomMethodsCfgCb(cfg: any[]) {
