@@ -2,7 +2,7 @@
   "name": "roothub",
   "displayName": "RootHub",
   "description": "RootHub 前端研发平台",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "author": "giscafer <giscafer@outlook.com>",
   "repository": {
     "type": "git",
@@ -109,7 +109,7 @@
               "description": "avue-api-request",
               "status": 1,
               "sort": 98,
-              "function": "/**\n * avue-api-request\n */\nfunction generateApiDefineition(apiData, prefix) {\n  const { api, method, parameters, summary } = apiData;\n  const utilsFn = window.utilsFn ?? {};\n  // window.lodash\n  const name = utilsFn.generateApiConstName(apiData) ?? method;\n  let apiParams = 'params';\n  let apiPath = prefix + api;\n  const apiStrReg = /\\{([\\d\\D]*)\\}/g;\n  let argumentsData = ['params'];\n  let inBody = false;\n  let inQuery = false;\n  (parameters || []).forEach((v) => {\n    if (v.in === 'body') {\n      inBody = true;\n    } else if (v.in === 'query') {\n      inQuery = true;\n    }\n  });\n  // 处理接口传参格式\n  if (inBody && inQuery) {\n    argumentsData.push('data');\n    apiParams = `params,\n    data: data`;\n  } else if (inQuery) {\n    apiParams = 'params';\n  } else if (inBody || method === 'post') {\n    apiParams = 'data: params';\n  }\n\n  let packTableData = '';\n  if (/(page|list)$/.test(api) || /列表|分页/.test(summary)) {\n    packTableData = '.then(packTableData)';\n  }\n\n  const matchPathId = apiStrReg.exec(api);\n  if (matchPathId) {\n    argumentsData.unshift(matchPathId[1]);\n    apiPath = apiPath.replace(apiStrReg, function (str) {\n      return `$${str}`;\n    });\n  }\n  const notes = utilsFn.generateApiNotes(apiData);\n\n  return `${notes}\n  export const ${name || 'fetch'} = (${argumentsData.join(', ')}) => {\n    return request(\n      {\n        url: ${'`'}${apiPath}${'`'},\n        method: '${method}',\n        ${apiParams}\n      }\n    ).then(responseHandle)${packTableData};\n  };\n    `;\n}\n"
+              "function": "/**\n * avue-api-request\n */\nfunction generateApiDefineition(apiData, prefix) {\n  const { api, method, parameters, summary } = apiData;\n  const utilsFn = window.utilsFn ?? {};\n  // window.lodash\n  const name = utilsFn.generateApiConstName(apiData) ?? method;\n  let apiParams = 'params';\n  let apiPath = prefix + api;\n  const apiStrReg = /\\{([\\d\\D]*)\\}/g;\n  let responseType = '';\n  let argumentsData = ['params'];\n  let inBody = false;\n  let inQuery = false;\n  (parameters || []).forEach((v) => {\n    if (v.in === 'body') {\n      inBody = true;\n    } else if (v.in === 'query') {\n      inQuery = true;\n    }\n  });\n  // 处理接口传参格式\n  if (inBody && inQuery) {\n    argumentsData.push('data');\n    apiParams = `params,\n    data: data`;\n  } else if (inQuery) {\n    apiParams = 'params';\n  } else if (inBody || method === 'post') {\n    apiParams = 'data: params';\n  }\n\n  let packTableData = '';\n  if (/(page|list)$/.test(api) || /列表|分页/.test(summary)) {\n    packTableData = '.then(packTableData)';\n  } else if (/导出/.test(summary)) {\n    responseType = 'responseType: blob,';\n    packTableData = '';\n  }\n\n  const matchPathId = apiStrReg.exec(api);\n  if (matchPathId) {\n    argumentsData.unshift(matchPathId[1]);\n    apiPath = apiPath.replace(apiStrReg, function (str) {\n      return `$${str}`;\n    });\n  }\n  const notes = utilsFn.generateApiNotes(apiData);\n\n  return `${notes}\n  export const ${name || 'fetch'} = (${argumentsData.join(', ')}) => {\n    return request(\n      {\n        url: ${'`'}${apiPath}${'`'},\n        method: '${method}',\n        ${apiParams},\n        ${responseType}\n      }\n    ).then(responseHandle)${packTableData};\n  };\n    `;\n}\n"
             },
             {
               "key": "baidu-general_basic",
@@ -131,6 +131,12 @@
             "language": "zh-CN",
             "theme": "default",
             "apiurlPrefixList": [],
+            "baiduTransAppid": "",
+            "baiduTransSecret": "",
+            "baiduApiToken": "24.ba24da4592cdd39ac59057f1dc836656.2592000.1687513296.282335-31896638",
+            "baiduApiTokenExpires": "1684924027509",
+            "baiduOCRAppid": "",
+            "baiduOCRSecret": "",
             "matchCodeStatus": true,
             "matchCodeFnKey": ""
           },

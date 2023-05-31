@@ -4,6 +4,11 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.3.1]
+- chore: 维护百度OCR-appid、secrect，使OCR可以主动获取token
+- chore: 文本生成方法增加Object、AntdForm、Element-From、basenObject
+- fix: baiduApiToken from Settings
+
 ## [1.3.0]
 - feat: 右键菜单-OpenApi-CodeGen即时搜索；api详情搜索功能（CSS Custom Highlight）
 - feat: 右键菜单-OpenApi-CodeGen匹配代码
