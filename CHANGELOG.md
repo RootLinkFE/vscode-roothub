@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.3.2]
+- chore: 即时搜索-api内容文本检索功能增强，增加上下跳转功能
+
 ## [1.3.1]
 - chore: 维护百度OCR-appid、secrect，使OCR可以主动获取token
 - chore: 文本生成方法增加Object、AntdForm、Element-From、basenObject
