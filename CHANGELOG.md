@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.3.4]
+- feat: api-axios-request 声明生成方法
+
 ## [1.3.3]
 - chore: 文本检索功能-放开大小写，增加esc事件
 
