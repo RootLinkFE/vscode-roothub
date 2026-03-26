@@ -5,7 +5,8 @@
  */
 import axios from 'axios';
 import { EventEmitter } from 'events';
-import { ExtensionContext, ViewColumn, Webview, window, env } from 'vscode';
+import { ExtensionContext, ViewColumn, Webview, window, env, workspace, Uri, FileType } from 'vscode';
+import * as path from 'path';
 import globalState from '../shared/state';
 import { events, formatHTMLWebviewResourcesUrl, getTemplateFileListContent } from '../shared/utils';
 import ReusedWebviewPanel from './ReusedWebviewPanel';
@@ -37,12 +38,79 @@ function codeGenView(context: ExtensionContext, webviewMessage?: WebviewMessage)
   setStorage(context, panel.webview, panelEvents);
   setCodeGenSetting(panel.webview, panelEvents);
 
-  panel.webview.onDidReceiveMessage((message) => {
+  panel.webview.onDidReceiveMessage(async (message) => {
     panelEvents.emit('onDidReceiveMessage', message);
     switch (message.command) {
       case 'pageReady':
         panelEvents.emit('pageReady');
         handlePostWebviewActiveText(panel.webview, webviewMessage, false);
+        return;
+      case 'saveFile':
+        try {
+          const { filename, content, subdir, sessionId } = message.data || {};
+          const folders = workspace.workspaceFolders || [];
+
+          if (!folders || folders.length === 0) {
+            const errMsg = '未检测到工作区，无法保存到项目。';
+            window.showWarningMessage(errMsg);
+            panel.webview.postMessage({
+              command: 'saveFileResponse',
+              data: { sessionId, success: false, message: errMsg },
+            });
+            return;
+          }
+
+          const root = folders[0].uri.fsPath;
+          const dir = path.join(root, subdir || 'openapi');
+          const target = path.join(dir, filename || 'openapi.json');
+
+          // 检查文件是否存在
+          const targetUri = Uri.file(target);
+          let fileExists = false;
+          try {
+            const stat = await workspace.fs.stat(targetUri);
+            fileExists = stat.type === FileType.File;
+          } catch {
+            fileExists = false;
+          }
+
+          // 如果文件存在，提示用户确认
+          if (fileExists) {
+            const choice = await window.showQuickPick(['覆盖保存', '取消'], {
+              placeHolder: '文件已存在，请选择操作',
+            });
+
+            if (choice !== '覆盖保存') {
+              panel.webview.postMessage({
+                command: 'saveFileResponse',
+                data: { sessionId, success: false, message: '用户取消保存' },
+              });
+              return;
+            }
+          }
+
+          await workspace.fs.createDirectory(Uri.file(dir));
+          await workspace.fs.writeFile(targetUri, Buffer.from(content ?? '', 'utf8'));
+
+          window.showInformationMessage(`已保存到项目：${path.relative(root, target)}`);
+
+          // 打开保存的文件
+          const document = await workspace.openTextDocument(targetUri);
+          await window.showTextDocument(document, { preview: true });
+
+          panel.webview.postMessage({
+            command: 'saveFileResponse',
+            data: { sessionId, success: true, target: path.relative(root, target) },
+          });
+        } catch (err: any) {
+          console.log('「RootHub」', 'saveFile error', err);
+          const errMsg = `保存失败：${err?.message || err}`;
+          window.showErrorMessage(errMsg);
+          panel.webview.postMessage({
+            command: 'saveFileResponse',
+            data: { sessionId: message.data?.sessionId, success: false, message: errMsg },
+          });
+        }
         return;
       case 'openInCodeSandBox':
         // TODO: 暂不知道VSCode解析html并跳转到默认浏览器
@@ -104,7 +172,7 @@ function codeGenView(context: ExtensionContext, webviewMessage?: WebviewMessage)
   } else {
     console.log(
       '「RootHub」',
-      getTemplateFileListContent(['codegen', 'index.html'], panel.webview)
+      getTemplateFileListContent(['codegen', 'index.html'], panel.webview),
     );
     panel.webview.html = getTemplateFileListContent(['codegen', 'index.html'], panel.webview);
   }
@@ -211,7 +279,7 @@ function setCodeGenSetting(webview: Webview, panelEvents: EventEmitter) {
 function handlePostWebviewActiveText(
   webview: Webview,
   webviewMessage?: WebviewMessage,
-  mounted?: boolean
+  mounted?: boolean,
 ) {
   const { activeText } = webviewMessage || {};
 
@@ -233,7 +301,7 @@ export function setcodeGenCustomMethodsCfgCb(cfg: any[]) {
     },
     (err) => {
       console.error(err);
-    }
+    },
   );
 }
 
@@ -250,7 +318,7 @@ export function setcodeGenSettingsCfgCb(cfg: any, b?: boolean) {
     },
     (err) => {
       console.error(err);
-    }
+    },
   );
 }
 
