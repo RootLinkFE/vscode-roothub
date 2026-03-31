@@ -4,6 +4,9 @@ All notable changes to the "roothub" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.4.1]
+- fix: 复制API_JSON扁平化处理；基础对象函数优化
+
 ## [1.4.0]
  - feat: 增加下载接口json数据到vscode工作区功能,方便智能体引用
 
