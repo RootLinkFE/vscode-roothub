@@ -197,7 +197,8 @@ function postFetchResponseFactory(webview: Webview, success: boolean, sessionId:
       command: 'fetchResponse',
       data: {
         success,
-        response: data,
+        ...response,
+        data: data ?? {},
         sessionId,
       },
     });
